@@ -9,6 +9,11 @@ __pycache__/
 # Pycharm
 .idea/*
 
+# Vim
+*~
+*.swp
+*.swo
+
 # Distribution / packaging
 .Python
 env/
