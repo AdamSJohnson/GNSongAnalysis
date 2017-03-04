@@ -2,7 +2,7 @@ from __future__ import print_function
 import sys, pygn, json
 
 
-clientID = '' # Enter your Client ID from developer.gracenote.com here
+clientID = '752404744-E74F3C84FB5730224773813C118C14ED' # Enter your Client ID from developer.gracenote.com here
 userID = '' # Get a User ID from pygn.register() - Only register once per end-user
 
 print('\nSearch for artist "Kings of Convenience"\n')
