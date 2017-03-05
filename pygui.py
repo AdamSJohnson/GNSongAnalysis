@@ -1,51 +1,46 @@
 #!/usr/bin/python3
 
 from tkinter import *
-from PIL import ImageTk, Image
 import time
-import os
 
-class Splash(Toplevel):
-
-    '''
-    Initialize the splash screen
-    '''
-    def __init__(self, parent):
-        
-        Toplevel.__init__(self, parent)
-
-        img = ImageTk.PhotoImage(Image.open("resources/Gracenote_Logo.jpg"))
-        panel = Label(parent, image = img)
-        panel.pack()
-
-        # needed to make this window show before the program reaches the mainloop
-        self.update()
-
-        
-class App(Tk):
+class App():
 
     '''
     The main program
     '''
     def __init__(self):        
-        Tk.__init__(self)
         
-        self.withdraw()
-        splash = Splash(self)
+        top = Tk()
 
         # setup stuff goes here
-        self.title("Main Window")
+        top.title("Main Window")
+
+        top.geometry("500x500")
+
+        tkvar = StringVar(top)
+
+        genreChoices = {25982:'Latin'} # a dictionary (map) of ID's and Genres respectively (ID:Genre)
+        moodChoices = {} 
+        eraChoices = {}
+
+        tkvar.set('Latin') # Sets init val of drop down menu
+        genreOptionMenu = OptionMenu(top, tkvar, list(genreChoices.values()))
+
+        tkvar.set('')
+        moodOptionMenu = OptionMenu(top, tkvar, list(moodChoices.values()))
+
+        tkvar.set('')
+        eraChoices = OptionMenu(top, tkvar, list(eraChoices.values()))
+
+        genreOptionMenu.pack(fill="none", expand = True)
+        moodOptionMenu.pack(fill="none", expand = True)
+        eraChoices.pack(fill="none", expand = True)
         
-        # simulate a delay while loading
-        time.sleep(10)
+        B = Button(top, text = "Run")
+        B.pack(fill="none", expand = True)
 
-        # finished loading so destroy splash
-        splash.destroy()
-
-        # show window again
-        self.deiconify()
+        top.mainloop()
 
 if __name__ == "__main__":
     
     app = App()
-    app.mainloop()
