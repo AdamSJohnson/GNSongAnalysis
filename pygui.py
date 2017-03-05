@@ -118,7 +118,32 @@ class ComboBoxWindow(Gtk.Window):
 
     def on_click_me_clicked(self, button):
         self.update_info() 
-        result = __run__().run(self.info)
+        results = __run__().run(self.info)
+        print(results)
+        s=self.ExitScreen(results)
+
+    def ExitScreen(self, results):
+        
+
+        self.set_default_size(1000,1000)
+        Gtk.Window.__init__(self, title="Results")
+
+        grid = Gtk.Grid()
+        self.add(grid)
+
+        for key in results:
+
+            button2 = Gtk.Button(label= key + str(results[key][0][0]))
+            #button3 = Gtk.Button(label="Button 3")
+        
+
+
+        grid.add(button2)
+        grid.attach(button2, 1, 0, 2, 1)
+        #grid.attach_next_to(button3, button1, Gtk.PositionType.BOTTOM, 1, 2)
+        #grid.attach_next_to(button4, button3, Gtk.PositionType.RIGHT, 2, 1)
+        #grid.attach(button5, 1, 2, 1, 1)
+        #grid.attach_next_to(button6, button5, Gtk.PositionType.RIGHT, 1, 1)
 
         
 
