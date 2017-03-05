@@ -1,46 +1,46 @@
 #!/usr/bin/python3
 
-import tkinter as tk
+from tkinter import *
 import time
 
-class Splash(tk.Toplevel):
-
-    '''
-    Initialize the splash screen
-    '''
-    def __init__(self, parent):
-        
-        tk.Toplevel.__init__(self, parent)
-
-        # needed to make this window show before the program reaches the mainloop
-        self.update()
-
-        
-class App(tk.Tk):
+class App():
 
     '''
     The main program
     '''
-    def __init__(self):
+    def __init__(self):        
         
-        tk.Tk.__init__(self)
+        top = Tk()
+
+        # setup stuff goes here
+        top.title("Main Window")
+
+        top.geometry("500x500")
+
+        tkvar = StringVar(top)
+
+        genreChoices = {25982:'Latin'} # a dictionary (map) of ID's and Genres respectively (ID:Genre)
+        moodChoices = {} 
+        eraChoices = {}
+
+        tkvar.set('Latin') # Sets init val of drop down menu
+        genreOptionMenu = OptionMenu(top, tkvar, list(genreChoices.values()))
+
+        tkvar.set('')
+        moodOptionMenu = OptionMenu(top, tkvar, list(moodChoices.values()))
+
+        tkvar.set('')
+        eraChoices = OptionMenu(top, tkvar, list(eraChoices.values()))
+
+        genreOptionMenu.pack(fill="none", expand = True)
+        moodOptionMenu.pack(fill="none", expand = True)
+        eraChoices.pack(fill="none", expand = True)
         
-        self.withdraw()
-        splash = Splash(self)
+        B = Button(top, text = "Run")
+        B.pack(fill="none", expand = True)
 
-        ## setup stuff goes here
-        self.title("Main Window")
-        
-        ## simulate a delay while loading
-        time.sleep(10)
-
-        ## finished loading so destroy splash
-        splash.destroy()
-
-        ## show window again
-        self.deiconify()
+        top.mainloop()
 
 if __name__ == "__main__":
     
     app = App()
-    app.mainloop()
