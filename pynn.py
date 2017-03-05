@@ -32,7 +32,7 @@ class analyze():
         #print(fname)
         print(fname)
         #open the file
-        file_obj = open(fname, 'r')
+        file_obj = open(fname.lower(), 'r')
 
         #put an array of the lines in a variable
         sentences = file_obj.readlines()
@@ -94,7 +94,7 @@ class analyze():
 
     def teardown(self, file_name):
         #remove the file
-        os.remove(file_name)
+        os.remove(file_name.lower())
 
 
     def cleanse(self, s):

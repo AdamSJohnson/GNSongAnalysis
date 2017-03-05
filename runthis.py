@@ -86,13 +86,16 @@ class __run__():
     def run(self, _list):
         #break down the list
         #convert 0's into ''
+        useme =[]
+        for x in _list:
+            useme.append(str(x))
 
 
         #artist
-
+        print(_list)
         return __run__().large_scale_test(_artist = _list[0],\
                                    _title= _list[1],\
-                                   _genre=_list[2],\
+                                   _genre= _list[2],\
                                    _mood= _list[3],\
                                    _era= _list[4],)
 
