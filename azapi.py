@@ -36,8 +36,12 @@ def processing(generate_url, artist, title, save):
     read_lyrics = response.read()
 
     soup = BeautifulSoup(read_lyrics, "html.parser")
-    print(soup)
-    lyrics = soup.find_all("div", attrs={"class": None, "id": None})
+    upbreak = '(adsbygoogle = window.adsbygoogle || []).push({});'
+    lowbreak = '(adsbygoogle = window.adsbygoogle || []).push({});'
+    lyrics = soup.get_text()
+    lyrics = lyrics.split(upbreak)[1]
+    lyrics = lyrics.split(lowbreak)[0]
+
     print(lyrics)
     lyrics = [x.getText() for x in lyrics]
     printing(artist, title, save, lyrics)

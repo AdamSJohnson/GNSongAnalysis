@@ -14,8 +14,8 @@ class analyze():
         #get the file name
 
 
-        azapi.generating('katy perry', 'roar', True)
-        fname = 'katy-perry_roar.txt'
+        azapi.generating('william orbit', 'american pie', True)
+        fname = 'william-orbit_american-pie.txt'
 
         #veriffy we got the right name
         print(fname)
