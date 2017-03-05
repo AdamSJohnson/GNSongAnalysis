@@ -28,7 +28,7 @@ def generating(artist, title, save):
         title = title.lower().replace(" ", "-")
         generate_url = 'http://lyrics.az/'+artist+'/-/'+title +'.html'
         print(generate_url)
-        processing(generate_url, artist, title, save)
+        return processing(generate_url, artist, title, save)
         
 def processing(generate_url, artist, title, save):
     first = urllib.request.Request(generate_url, headers ={'User-agent' : 'Magic Browser'})
@@ -45,13 +45,14 @@ def processing(generate_url, artist, title, save):
     print(lyrics)
 
 
-    printing(artist, title, save, lyrics)
+    return printing(artist, title, save, lyrics)
+
     
 def printing(artist, title, save, lyrics):    
     #for x in lyrics:
     #    print(x, end="\n\n")
     if save == True:
-        saving(artist, title, lyrics)
+        return saving(artist, title, lyrics)
     elif save == False:
         pass
             
@@ -59,4 +60,5 @@ def saving(artist, title, lyrics):
         f = open(artist + '_' + title + '.txt', 'w')
 
         f.write(lyrics)
+        return f
         f.close()

@@ -2,7 +2,7 @@ import nltk
 from nltk.corpus import sentiwordnet as swn
 from nltk.corpus import treebank as tb
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from os import path
+import os
 import azapi
 
 class analyze():
@@ -10,15 +10,15 @@ class analyze():
     '''
     Start analyzing the words
     '''
-    def setup_analysis(self):
+    def setup_analysis(self, _artist_name, _song_name):
         #get the file name
 
 
-        azapi.generating('katy perry', 'roar', True)
-        fname = 'katy-perry_roar.txt'
+        azapi.generating(_artist_name, _song_name, True)
+        fname = _artist_name.replace(' ', '-') + '_' + _song_name.replace(' ', '-') + '.txt'
 
         #veriffy we got the right name
-        print(fname)
+        #print(fname)
 
         #open the file
         file_obj = open(fname, 'r')
@@ -39,8 +39,7 @@ class analyze():
             if sentence.startswith('['):
                 #must find the second [
                 loc = sentence.find(']')
-                print(loc)
-                print(len(sentence))
+
                 sentence = sentence[loc : len(sentence)]
 
             if sentence.startswith('***'):
@@ -52,7 +51,7 @@ class analyze():
             lines += 1
             sid = SentimentIntensityAnalyzer()
             ss = sid.polarity_scores(sentence)
-            print(sentence)
+            #print(sentence)
             temp = []
             for k in sorted(ss):
                 j = ss[k]
@@ -70,7 +69,17 @@ class analyze():
         total[1] = total[1] / lines
         total[2] = total[2] / lines
         total[3] = total[3] / lines
-        print(total)
+        #print(total)
 
-a = analyze()
-a.setup_analysis()
+
+
+        return total , fname
+
+
+
+    def teardown(self, file_name):
+        #remove the file
+        os.remove(file_name)
+
+
+
