@@ -40,15 +40,59 @@ class __run__():
         #for data in result:
         #    print('{}\n{}'.format(data['track_title'], data['track_artist_name']))
 
+        resultAlt = pygn.search(clientID=clientID, userID=userID, track=_title, artist= _artist)
+        #print (resultAlt)
+
+        if resultAlt:
+            print(resultAlt)
+
+            # grab the title
+            title = resultAlt['track_title']
+            # grab artist name
+            artist = resultAlt['album_artist_name']
+
+            # grab the album name
+            album = resultAlt['album_title']
+            # print(album)
+            # cleaned_artists = pn.analyze().remove_accents(artist)
+            cleaned_artists = pn.analyze().cleanse(artist)
+            cleaned_artists = pn.analyze().remove_feat(cleaned_artists)
+            cleaned_artists = pn.analyze().cleanse(cleaned_artists)
+
+            # cleaned_title = pn.analyze().remove_accents(title)
+            cleaned_title = pn.analyze().cleanse(title)
+            cleaned_title = pn.analyze().remove_feat(cleaned_title)
+            cleaned_title = pn.analyze().cleanse(cleaned_title)
+
+            cleaned_album = pn.analyze().cleanse(album)
+            cleaned_album = pn.analyze().remove_feat(cleaned_album)
+            cleaned_album = pn.analyze().cleanse(cleaned_album)
+
+            # make a tuple
+            temp = [title, artist]
+            # get the intensity
+
+            intensity, fname = pn.analyze().setup_analysis(clientID=clientID, userID=userID,
+                                                           _artist_name=cleaned_artists, _song_name=cleaned_title,
+                                                           _album_title=cleaned_album)
+            if intensity != 0:
+
+                if fname != 0:
+                    pn.analyze().teardown(fname)
+                    # add our entry to the map
+                    intensities[temp[0]] = [intensity, temp[1]]
+                    print("added")
+
         print('GOGO AZ LYRICS')
         for data in result:
+            print(result)
             if not data:
                 print('No results')
                 continue
             #grab the title
             title = data['track_title']
             #grab artist name
-            artist = data['track_artist_name']
+            artist = data['album_artist_name']
 
             #grab the album name
             album = data['album_title']
@@ -105,4 +149,4 @@ class __run__():
 
 
 
-#__run__().run(None)
+__run__().run(['','Danger Zone','','',''])

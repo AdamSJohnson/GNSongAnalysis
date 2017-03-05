@@ -65,8 +65,8 @@ class analyze():
 
             lines += 1
             sid = SentimentIntensityAnalyzer()
-            ss = sid.polarity_scores(sentence)
             #print(sentence)
+            ss = sid.polarity_scores(sentence)
             temp = []
             for k in sorted(ss):
                 j = ss[k]

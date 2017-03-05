@@ -28,7 +28,7 @@ print(json.dumps(result, sort_keys=True, indent=4))
 '''
 
 # Example how to create a radio playlist by mood peaceful
-result = pygn.createRadio(clientID=clientID, userID=userID, mood='42958', popularity ='1000', similarity = '1000')
+result = pygn.search(clientID=clientID, userID=userID,  track='Roar')
 print(json.dumps(result, sort_keys=True, indent=4))
 for data in result:
     print('{}\n{}'.format(data['track_title'],data['track_artist_name'],data['album']))
