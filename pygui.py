@@ -62,13 +62,18 @@ class ComboBoxWindow(Gtk.Window):
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
         genre_store = Gtk.ListStore(str)
-        genres = {"Austria", "Brazil", "Belgium", "France", "Germany",
+        genres = {"Austr", "Braz", "Belgi", "Fran", "Germa",
+            "Switzerla", "United Kingd", "United States of Ameri",
+            "Urugu", "Austri", "Brazi", "Belgiu", "Franc", "German",
+            "Switzerlan", "United Kingdo", "United States of Americ",
+            "Urugua", "Austria", "Brazil", "Belgium", "France", "Germany",
             "Switzerland", "United Kingdom", "United States of America",
             "Uruguay"}
         for genre in genres:
             genre_store.append([genre])
 
         genre_combo = Gtk.ComboBox.new_with_model_and_entry(genre_store)
+        genre_combo.set_border_width(3)
         genre_combo.connect("changed", self.on_genre_combo_changed)
         renderer_text = Gtk.CellRendererText()
         genre_combo.pack_start(renderer_text, True)

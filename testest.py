@@ -31,7 +31,7 @@ class ComboBoxWindow(Gtk.Window):
         for country in countries:
             country_store.append([country])
 
-        country_combo = Gtk.ComboBox.new_with_model_and_entry(country_store)
+        country_combo = Gtk.ComboBox.new_with_model(country_store)
         country_combo.connect("changed", self.on_country_combo_changed)
         renderer_text = Gtk.CellRendererText()
         country_combo.pack_start(renderer_text, True)
