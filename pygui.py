@@ -54,10 +54,11 @@ from gi.repository import Gtk
 from tkinter import *
 
 class ComboBoxWindow(Gtk.Window):
-    info = ["","",0,0,0]
 
+    
     def __init__(self):
-        Gtk.Window.__init__(self, title="ComboBox Example")
+        self.info = ["","",0,0,0]
+        Gtk.Window.__init__(self, title="ComboBox Example")        
 
         self.set_border_width(10)
 
@@ -140,6 +141,7 @@ class ComboBoxWindow(Gtk.Window):
             genre = model[tree_iter][0]
             print("Selected: genre=%s" % genre)
 
+
     def on_mood_combo_changed(self, combo):
         tree_iter = combo.get_active_iter()
         if tree_iter != None:
@@ -154,8 +156,17 @@ class ComboBoxWindow(Gtk.Window):
             era = model[tree_iter][0]
             print("Selected: era=%s" % era)
 
+    def update_info(self):
+        self.info[0] = self.artist.get_text()
+        self.info[1] = self.track.get_text()
+        for w in self.info
+        print w
+        #print(self.info[0])
+        #print(self.info[1])
+
     def on_click_me_clicked(self, button):
-        info[0] = self.artist.val()
+        self.update_info() 
+
         
 
 
