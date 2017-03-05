@@ -14,8 +14,8 @@ class analyze():
         #get the file name
 
 
-        azapi.generating('william orbit', 'american pie', True)
-        fname = 'william-orbit_american-pie.txt'
+        azapi.generating('katy perry', 'roar', True)
+        fname = 'katy-perry_roar.txt'
 
         #veriffy we got the right name
         print(fname)
@@ -34,10 +34,19 @@ class analyze():
 
         #go through an analyze each of the sentences
         for sentence in sentences:
-            if sentence == '\n':
-                continue
+
 
             if sentence.startswith('['):
+                #must find the second [
+                loc = sentence.find(']')
+                print(loc)
+                print(len(sentence))
+                sentence = sentence[loc : len(sentence)]
+
+            if sentence.startswith('***'):
+                continue
+
+            if sentence == '\n':
                 continue
 
             lines += 1

@@ -26,7 +26,7 @@ import urllib.request, urllib.error, urllib.parse
 def generating(artist, title, save):
         artist = artist.lower().replace(" ", "-")
         title = title.lower().replace(" ", "-")
-        generate_url = 'http://azlyrics.az/'+artist+'/-/'+title +'.html'
+        generate_url = 'http://lyrics.az/'+artist+'/-/'+title +'.html'
         print(generate_url)
         processing(generate_url, artist, title, save)
         
@@ -37,13 +37,14 @@ def processing(generate_url, artist, title, save):
 
     soup = BeautifulSoup(read_lyrics, "html.parser")
     upbreak = '(adsbygoogle = window.adsbygoogle || []).push({});'
-    lowbreak = '(adsbygoogle = window.adsbygoogle || []).push({});'
+    lowbreak = 'Correct these Lyrics'
     lyrics = soup.get_text()
+
     lyrics = lyrics.split(upbreak)[1]
     lyrics = lyrics.split(lowbreak)[0]
-
     print(lyrics)
-    lyrics = [x.getText() for x in lyrics]
+
+
     printing(artist, title, save, lyrics)
     
 def printing(artist, title, save, lyrics):    
@@ -56,5 +57,6 @@ def printing(artist, title, save, lyrics):
             
 def saving(artist, title, lyrics):
         f = open(artist + '_' + title + '.txt', 'w')
-        f.write("\n".join(lyrics).strip())
+
+        f.write(lyrics)
         f.close()
