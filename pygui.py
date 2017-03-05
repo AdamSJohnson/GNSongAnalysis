@@ -15,23 +15,23 @@ class App():
         # setup stuff goes here
         top.title("Main Window")
 
-        top.geometry("500x500")
-
-        tkvarGenre = StringVar(top)
-        tkvarMood = StringVar(top)
-        tkvarEra = StringVar(top)
+        top.geometry("500x500")       
+        
 
         genreChoices = {25982:'Latin', } # a dictionary (map) of ID's and Genres respectively (ID:Genre)
         moodChoices = {} 
         eraChoices = {}
 
-        tkvar.set('Latin') # Sets init val of drop down menu
+        tkvarGenre = StringVar(top)
+        tkvarGenre.set('Latin') # Sets init val of drop down menu
         genreOptionMenu = OptionMenu(top, tkvarGenre, list(genreChoices.values()))
 
-        tkvar.set('')
+        tkvarMood = StringVar(top)
+        tkvarMood.set('Happy')
         moodOptionMenu = OptionMenu(top, tkvarMood, list(moodChoices.values()))
 
-        tkvar.set('')
+        tkvarEra = StringVar(top)
+        tkvarEra.set('90\'s')
         eraChoices = OptionMenu(top, tkvarEra, list(eraChoices.values()))
 
         genreOptionMenu.pack(fill="none", expand = True)
