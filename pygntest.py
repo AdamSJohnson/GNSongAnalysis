@@ -29,7 +29,9 @@ print(json.dumps(result, sort_keys=True, indent=4))
 # Example how to create a radio playlist by mood peaceful
 result = pygn.createRadio(clientID=clientID, userID=userID, mood='65322', popularity ='1000', similarity = '1000')
 print(json.dumps(result, sort_keys=True, indent=4))
-
+for data in result:
+    print('{}\n{}'.format(data['track_title'],data['track_artist_name']))
+'''
 # Example how to create a radio playlist by genre classical music
 result = pygn.createRadio(clientID=clientID, userID=userID, genre='36061', popularity ='1000', similarity = '1000')
 print(json.dumps(result, sort_keys=True, indent=4))
@@ -49,3 +51,4 @@ print(json.dumps(result[0], sort_keys=True, indent=4))
 # Example give feedback: track liked
 result = pygn.radioEvent(clientID=clientID, userID=userID, radioID='84f652bfae095ee31c859a7f80ed9f6e', gnID='36890081-978D4C7F39C122C877CFF0CE946B4880', event ='TRACK_LIKED', count='10')
 print(json.dumps(result[0], sort_keys=True, indent=4))
+'''
