@@ -86,12 +86,7 @@ class __run__():
     def run(self, _list):
         #break down the list
         #convert 0's into ''
-        if int(list[2]) == 0:
-            list[2] = ''
-        if int(list[3]) == 0:
-            list[3] = ''
-        if int(list[4]) == 0:
-            list[5] = ''
+
 
         #artist
 
