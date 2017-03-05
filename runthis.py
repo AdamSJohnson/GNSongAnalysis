@@ -30,7 +30,7 @@ class __run__():
 
         # get ourselves a radio with a bunch of songs
         result = pygn.createRadio(clientID=clientID, userID=userID, \
-                                  artist='All that remains',\
+                                  artist=_artist,\
                                   track=_title,\
                                   genre=_genre,\
                                   mood=_mood,\
@@ -81,19 +81,27 @@ class __run__():
         for item in intensities:
             #prin the tuple
             print(item)
+        return intensities
 
     def run(self, _list):
         #break down the list
+        #convert 0's into ''
+        if list[2] == 0:
+            list[2] = ''
+        if list[3] == 0:
+            list[3] = ''
+        if list[4] == 0:
+            list[5] = ''
 
         #artist
 
-        __run__().large_scale_test(_artist = '',\
-                                   _title= '',\
-                                   _genre='',\
-                                   _mood= '',\
-                                   _era= '',)
-
-        return 0;
+        return __run__().large_scale_test(_artist = list[0],\
+                                   _title= list[1],\
+                                   _genre=list[2],\
+                                   _mood= list[3],\
+                                   _era= list[4],)
 
 
-__run__().run(None)
+
+
+#__run__().run(None)
