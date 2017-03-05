@@ -54,6 +54,7 @@ from gi.repository import Gtk
 from tkinter import *
 
 class ComboBoxWindow(Gtk.Window):
+    info = ["","",0,0,0]
 
     def __init__(self):
         Gtk.Window.__init__(self, title="ComboBox Example")
@@ -73,13 +74,6 @@ class ComboBoxWindow(Gtk.Window):
         self.track = Gtk.Entry()
         self.track.set_placeholder_text("Track")
         vbox.pack_start(self.track, True, True, 0)
-
-        hbox = Gtk.Box(spacing=6)
-        vbox.pack_start(hbox, True, True, 0)
-
-        self.album = Gtk.Entry()
-        self.album.set_placeholder_text("Album")
-        vbox.pack_start(self.album, True, True, 0)
 
         hbox = Gtk.Box(spacing=6)
         vbox.pack_start(hbox, True, True, 0)
@@ -131,6 +125,10 @@ class ComboBoxWindow(Gtk.Window):
         era_combo.pack_start(renderer_text, True)
         era_combo.add_attribute(renderer_text, "text", 0)
         vbox.pack_start(era_combo, False, False, True)
+
+        button = Gtk.Button.new_with_label("Submit")
+        button.connect("clicked", self.on_click_me_clicked)
+        hbox.pack_start(button, True, True, 0)
         
         self.add(vbox)
 
@@ -155,6 +153,11 @@ class ComboBoxWindow(Gtk.Window):
             model = combo.get_model()
             era = model[tree_iter][0]
             print("Selected: era=%s" % era)
+
+    def on_click_me_clicked(self, button):
+        info[0] = self.artist.val()
+        
+
 
 #Display and run
 win = ComboBoxWindow()

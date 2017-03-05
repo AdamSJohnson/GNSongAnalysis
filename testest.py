@@ -52,6 +52,7 @@ class ComboBoxWindow(Gtk.Window):
 
     def on_name_combo_changed(self, combo):
         tree_iter = combo.get_active_iter()
+        
         if tree_iter != None:
             model = combo.get_model()
             row_id, name = model[tree_iter][:2]
