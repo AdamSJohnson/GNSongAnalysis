@@ -1,56 +1,7 @@
-"""#!/usr/bin/python3
-
-from tkinter import *
-import time
-
-class App():
-
-    '''
-    The main program
-    '''
-    def __init__(self):        
-        
-        top = Tk()
-
-        # setup stuff goes here
-        top.title("Main Window")
-
-        top.geometry("500x500")       
-        
-
-        genreChoices = {25982:'Latin', } # a dictionary (map) of ID's and Genres respectively (ID:Genre)
-        moodChoices = {} 
-        eraChoices = {}
-
-        tkvarGenre = StringVar(top)
-        tkvarGenre.set('Latin') # Sets init val of drop down menu
-        genreOptionMenu = OptionMenu(top, tkvarGenre, list(genreChoices.values()))
-
-        tkvarMood = StringVar(top)
-        tkvarMood.set('Happy')
-        moodOptionMenu = OptionMenu(top, tkvarMood, list(moodChoices.values()))
-
-        tkvarera = StringVar(top)
-        tkvarera.set('90\'s')
-        eraChoices = OptionMenu(top, tkvarera, list(eraChoices.values()))
-
-        genreOptionMenu.pack(fill="none", expand = True)
-        moodOptionMenu.pack(fill="none", expand = True)
-        eraChoices.pack(fill="none", expand = True)
-        
-        B = Button(top, text = "Run")
-        B.pack(fill="none", expand = True)
-
-        top.mainloop()
-
-if __name__ == "__main__":
-    
-    app = App()
-"""
-
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+from runthis import __run__
 from tkinter import *
 
 class ComboBoxWindow(Gtk.Window):
@@ -167,6 +118,7 @@ class ComboBoxWindow(Gtk.Window):
 
     def on_click_me_clicked(self, button):
         self.update_info() 
+        result = __run__().run(self.info)
 
         
 

@@ -90,11 +90,11 @@ class __run__():
 
         #artist
 
-        return __run__().large_scale_test(_artist = list[0],\
-                                   _title= list[1],\
-                                   _genre=list[2],\
-                                   _mood= list[3],\
-                                   _era= list[4],)
+        return __run__().large_scale_test(_artist = _list[0],\
+                                   _title= _list[1],\
+                                   _genre=_list[2],\
+                                   _mood= _list[3],\
+                                   _era= _list[4],)
 
 
 
