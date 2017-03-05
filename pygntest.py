@@ -3,7 +3,7 @@ import sys, pygn, json
 
 
 clientID = '752404744-E74F3C84FB5730224773813C118C14ED' # Enter your Client ID from developer.gracenote.com here
-userID = '' # Get a User ID from pygn.register() - Only register once per end-user
+userID = pygn.register(clientID)
 
 print('\nSearch for artist "Kings of Convenience"\n')
 result = pygn.search(clientID=clientID, userID=userID, artist='Kings of Convenience')
