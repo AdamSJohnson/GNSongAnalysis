@@ -37,7 +37,7 @@ def generating(clientID='', userID='',artist='', title='', album='', save=''):
 
             artist = temp['track_artist_name']
 
-            print(artist)
+            #print(artist)
             #return 0
         try:
             generate_url = 'http://lyrics.az/' + artist + '/'+album+ '/' + title + '.html'
@@ -62,7 +62,7 @@ def generating(clientID='', userID='',artist='', title='', album='', save=''):
 
         
 def processing(generate_url, artist, title, save):
-    print(generate_url)
+    #print(generate_url)
     first = urllib.request.Request(generate_url, headers ={'User-agent' : 'Magic Browser'})
     response = urllib.request.urlopen(first)
     read_lyrics = response.read()

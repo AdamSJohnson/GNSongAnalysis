@@ -23,14 +23,14 @@ class analyze():
                                  album=_album_title,\
                                  save = True
                                  )
-        print(check)
+        #print(check)
         if(check == 0):
             return 0, 0
         fname = _artist_name.replace(' ', '-') + '_' + _song_name.replace(' ', '-') + '.txt'
 
         #veriffy we got the right name
         #print(fname)
-        print(fname)
+        #(fname)
         #open the file
         file_obj = open(fname.lower(), 'r')
 

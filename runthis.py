@@ -85,7 +85,7 @@ class __run__():
 
         print('GOGO AZ LYRICS')
         for data in result:
-            print(result)
+            #(result)
             if not data:
                 print('No results')
                 continue
@@ -127,7 +127,13 @@ class __run__():
 
         for item in intensities:
             #prin the tuple
-            print(item)
+            print('{:30}'.format(item) +' : Compound Score ' + '{:04.2f}'.format( 100 * intensities[item][0][0]) + \
+                  ' : Negative Score ' + '{:04.2f}'.format((100 * intensities[item][0][1])) + \
+                  ' : Neutral Score ' + '{:04.2f}'.format(100 * intensities[item][0][2]) + \
+                  ' : Positive Score ' + '{:04.2f}'.format(100 * intensities[item][0][3]) + \
+                  ' : Artist ' + '{:30}'.format( intensities[item][1]) , \
+                  )
+
         return intensities
 
     def run(self, _list):
@@ -149,4 +155,4 @@ class __run__():
 
 
 
-#__run__().run(['','Danger Zone','','',''])
+#__run__().run(['Katy Perry','','','',''])
