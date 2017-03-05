@@ -4,22 +4,33 @@ from nltk.corpus import treebank as tb
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import os
 import azapi
-
+import re
+import unicodedata
+import string
 class analyze():
 
     '''
     Start analyzing the words
     '''
-    def setup_analysis(self, _artist_name, _song_name):
+    def setup_analysis(self,clientID='', userID='', _artist_name='', _song_name='', _album_title=''):
         #get the file name
 
 
-        azapi.generating(_artist_name, _song_name, True)
+        check = azapi.generating(clientID=clientID,\
+                                 userID=userID,\
+                                 artist=_artist_name,\
+                                 title= _song_name,\
+                                 album=_album_title,\
+                                 save = True
+                                 )
+        print(check)
+        if(check == 0):
+            return 0, 0
         fname = _artist_name.replace(' ', '-') + '_' + _song_name.replace(' ', '-') + '.txt'
 
         #veriffy we got the right name
         #print(fname)
-
+        print(fname)
         #open the file
         file_obj = open(fname, 'r')
 
@@ -47,6 +58,10 @@ class analyze():
 
             if sentence == '\n':
                 continue
+
+            if sentence == '﻿At the moment nobody has submitted lyrics for this song to our archive.':
+                #this is a problem it means there are no lyrics to the stong
+                return 0, 0
 
             lines += 1
             sid = SentimentIntensityAnalyzer()
@@ -80,6 +95,31 @@ class analyze():
     def teardown(self, file_name):
         #remove the file
         os.remove(file_name)
+
+
+    def cleanse(self, s):
+        r = re.compile(r'[{}]+'.format(re.escape(string.punctuation)))
+        ex = r.sub('', s)
+
+        ex = re.sub('[^0-9a-zA-Z]+', ' ', s)
+        #check if the last char is white space
+        if len(ex) == 0:
+            return ex
+
+        if ex[(len(ex) - 1)] == ' ':
+            return ex[0: len(ex) - 1]
+
+        return ex;
+
+    def remove_feat(self, s):
+        loc = s.lower().find('feat')
+        if loc > 0:
+            return s[0 : loc]
+        return s
+
+    def remove_accents(self, input_str):
+        nfkd_form = unicodedata.normalize('NFKD', input_str)
+        return u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
 
 
 

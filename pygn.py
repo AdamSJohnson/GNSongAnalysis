@@ -145,7 +145,7 @@ def createRadio(clientID='', userID='', artist='', track='', mood='', era='', ge
 
 	if DEBUG:
 		print('QUERY:')
-		print(queryXML)
+		#print(queryXML)
 
 	# POST query
 	response = urllib_request.urlopen(_gnurl(clientID), queryXML)
@@ -158,7 +158,7 @@ def createRadio(clientID='', userID='', artist='', track='', mood='', era='', ge
 		track = _parseRadioMetadata(responseXML,x,clientID,userID)
 		myPlaylist.append(track)
 	
-	print(responseXML)
+	#print(responseXML)
 	
 	return myPlaylist
 

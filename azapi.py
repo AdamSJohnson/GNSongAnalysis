@@ -19,18 +19,50 @@
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
-
+import pynn
 from bs4 import BeautifulSoup
 import urllib.request, urllib.error, urllib.parse
+from urllib.error import HTTPError
+import pygn
+def generating(clientID='', userID='',artist='', title='', album='', save=''):
+        if title is bool:
+            return 0
 
-def generating(artist, title, save):
         artist = artist.lower().replace(" ", "-")
         title = title.lower().replace(" ", "-")
-        generate_url = 'http://lyrics.az/'+artist+'/-/'+title +'.html'
-        print(generate_url)
-        return processing(generate_url, artist, title, save)
+        album = album.lower().replace(" ", "-")
+        if artist == '':
+            print('no artist name')
+            temp = pygn.search(clientID=clientID, userID=userID, track=title)
+
+            artist = temp['track_artist_name']
+
+            print(artist)
+            #return 0
+        try:
+            generate_url = 'http://lyrics.az/' + artist + '/'+album+ '/' + title + '.html'
+            #urllib.request.urlopen(generate_url)
+            return processing(generate_url, artist, title, save)
+        except HTTPError:
+            if album != '-':
+                return generating(clientID=clientID,\
+                                 userID=userID,\
+                                 artist=artist,\
+                                 title= title,\
+                                 album='-',\
+                                 save = True
+                                 )
+            else :
+                print('failed!')
+                generate_url = 'http://lyrics.az/' + artist + '/' + album + '/' + title + '.html'
+                print(generate_url)
+                print('-===-')
+                return 0
+
+
         
 def processing(generate_url, artist, title, save):
+    print(generate_url)
     first = urllib.request.Request(generate_url, headers ={'User-agent' : 'Magic Browser'})
     response = urllib.request.urlopen(first)
     read_lyrics = response.read()
@@ -38,11 +70,13 @@ def processing(generate_url, artist, title, save):
     soup = BeautifulSoup(read_lyrics, "html.parser")
     upbreak = '(adsbygoogle = window.adsbygoogle || []).push({});'
     lowbreak = 'Correct these Lyrics'
-    lyrics = soup.get_text()
-
+    try:
+        lyrics = soup.get_text()
+    except UnicodeDecodeError:
+        return 0
     lyrics = lyrics.split(upbreak)[1]
     lyrics = lyrics.split(lowbreak)[0]
-    print(lyrics)
+    #print(lyrics)
 
 
     return printing(artist, title, save, lyrics)
@@ -57,8 +91,12 @@ def printing(artist, title, save, lyrics):
         pass
             
 def saving(artist, title, lyrics):
-        f = open(artist + '_' + title + '.txt', 'w')
-
+    f = open(artist + '_' + title + '.txt', 'w')
+    try:
         f.write(lyrics)
-        return f
         f.close()
+        return artist + '_' + title + '.txt'
+    except UnicodeEncodeError:
+        f.close()
+        pynn.analyze().teardown(artist + '_' + title + '.txt')
+        return 0

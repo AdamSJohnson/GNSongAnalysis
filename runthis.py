@@ -8,7 +8,8 @@ import pygn
 
 import sys, pygn, json
 import azapi
-
+import urllib.request, urllib.error, urllib.parse
+from urllib.error import HTTPError
 
 clientID = '752404744-E74F3C84FB5730224773813C118C14ED' # Enter your Client ID from developer.gracenote.com here
 userID = pygn.register(clientID)
@@ -23,12 +24,18 @@ class __run__():
         analyzer.teardown(fname)
 
 
-    def large_scale_test(self):
+    def large_scale_test(self, _title='', _artist='',  _mood='', _genre='', _era=''):
         #query the grace note database and grab a list of songs and artists
-        intensities = {}
+        intensities = dict()
 
         # get ourselves a radio with a bunch of songs
-        result = pygn.createRadio(clientID=clientID, userID=userID, mood='42958', popularity='1000', similarity='1000')
+        result = pygn.createRadio(clientID=clientID, userID=userID, \
+                                  artist='All that remains',\
+                                  track=_title,\
+                                  genre=_genre,\
+                                  mood=_mood,\
+                                  era=_era,
+                                  )
         #print(json.dumps(result, sort_keys=True, indent=4))
         #for data in result:
         #    print('{}\n{}'.format(data['track_title'], data['track_artist_name']))
@@ -39,16 +46,54 @@ class __run__():
             title = data['track_title']
             #grab artist name
             artist = data['track_artist_name']
+
+            #grab the album name
+            album = data['album_title']
+            #print(album)
+            #cleaned_artists = pn.analyze().remove_accents(artist)
+            cleaned_artists = pn.analyze().cleanse(artist)
+            cleaned_artists = pn.analyze().remove_feat(cleaned_artists)
+            cleaned_artists = pn.analyze().cleanse(cleaned_artists)
+
+            #cleaned_title = pn.analyze().remove_accents(title)
+            cleaned_title = pn.analyze().cleanse(title)
+            cleaned_title = pn.analyze().remove_feat(cleaned_title)
+            cleaned_title = pn.analyze().cleanse(cleaned_title)
+
+            cleaned_album = pn.analyze().cleanse(album)
+            cleaned_album = pn.analyze().remove_feat(cleaned_album)
+            cleaned_album = pn.analyze().cleanse(cleaned_album)
+
             #make a tuple
             temp = [title, artist]
             #get the intensity
-            intensity, fname = pn.analyze().setup_analysis(artist, title)
+
+            intensity, fname = pn.analyze().setup_analysis(clientID=clientID, userID=userID, _artist_name=cleaned_artists, _song_name=cleaned_title, _album_title=cleaned_album)
+            if intensity == 0:
+                continue
             #teardown the file
-            pn.analyze().teardown(fname)
+            if fname != 0:
+                pn.analyze().teardown(fname)
             #add our entry to the map
-            intensities = intensities + {temp : intensity}
+            intensities[temp[0]] = [intensity, temp[1]]
+            print("added")
+
         for item in intensities:
             #prin the tuple
             print(item)
 
-__run__().large_scale_test()
+    def run(self, _list):
+        #break down the list
+
+        #artist
+
+        __run__().large_scale_test(_artist = '',\
+                                   _title= '',\
+                                   _genre='',\
+                                   _mood= '',\
+                                   _era= '',)
+
+        return 0;
+
+
+__run__().run(None)

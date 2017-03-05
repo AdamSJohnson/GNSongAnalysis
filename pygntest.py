@@ -31,7 +31,7 @@ print(json.dumps(result, sort_keys=True, indent=4))
 result = pygn.createRadio(clientID=clientID, userID=userID, mood='42958', popularity ='1000', similarity = '1000')
 print(json.dumps(result, sort_keys=True, indent=4))
 for data in result:
-    print('{}\n{}'.format(data['track_title'],data['track_artist_name']))
+    print('{}\n{}'.format(data['track_title'],data['track_artist_name'],data['album']))
 
 print('GOGO AZ LYRICS')
 for data in result:
