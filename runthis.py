@@ -42,6 +42,9 @@ class __run__():
 
         print('GOGO AZ LYRICS')
         for data in result:
+            if not data:
+                print('No results')
+                continue
             #grab the title
             title = data['track_title']
             #grab artist name
