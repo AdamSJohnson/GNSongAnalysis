@@ -1,5 +1,6 @@
 from __future__ import print_function
 import sys, pygn, json
+import azapi
 
 
 clientID = '752404744-E74F3C84FB5730224773813C118C14ED' # Enter your Client ID from developer.gracenote.com here
@@ -27,10 +28,19 @@ print(json.dumps(result, sort_keys=True, indent=4))
 '''
 
 # Example how to create a radio playlist by mood peaceful
-result = pygn.createRadio(clientID=clientID, userID=userID, mood='65322', popularity ='1000', similarity = '1000')
+result = pygn.createRadio(clientID=clientID, userID=userID, mood='42958', popularity ='1000', similarity = '1000')
 print(json.dumps(result, sort_keys=True, indent=4))
 for data in result:
     print('{}\n{}'.format(data['track_title'],data['track_artist_name']))
+
+print('GOGO AZ LYRICS')
+for data in result:
+    title = data['track_title']
+    artist = data['track_artist_name']
+    if artist and title.replace(' ','').isalpha() and artist.replace(' ','').isalpha():
+        print(azapi.generating(artist,title,True))
+
+
 '''
 # Example how to create a radio playlist by genre classical music
 result = pygn.createRadio(clientID=clientID, userID=userID, genre='36061', popularity ='1000', similarity = '1000')
