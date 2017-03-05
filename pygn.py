@@ -155,7 +155,7 @@ def createRadio(clientID='', userID='', artist='', track='', mood='', era='', ge
 	myPlaylist = []
 
 	for x in range(1, int(count)):
-		track = _parseRadioMetadata(responseXML,x)		
+		track = _parseRadioMetadata(responseXML,x,clientID,userID)
 		myPlaylist.append(track)
 	
 	print(responseXML)
@@ -215,7 +215,7 @@ def radioEvent(clientID='', userID='', radioID='', gnID='', event ='TRACK_PLAYED
 	myPlaylist = []
 
 	for x in range(1, int(count)):
-		track = _parseRadioMetadata(responseXML,x)		
+		track = _parseRadioMetadata(responseXML,x,clientID,userID)
 		myPlaylist.append(track)
 	
 	print(responseXML)
@@ -308,7 +308,7 @@ def search(clientID='', userID='', artist='', album='', track='', toc=''):
 			metadata['artist_type'] = _getMultiElemText(albumElem, 'ARTIST_TYPE', 'ORD', 'ID')
 		else:
 			# Try to get OET again by fetching album by GNID
-			metadata['artist_origin'], metadata['artist_era'], metadata['artist_type'] = _getOET(clientID, userID, metadata['album_gnid'])
+			metadata['artist_origin'], metadata['artist_era'], metadata['artist_type'] = _getOET(clientID, userID, GNID=metadata['album_gnid'])
 			
 		# Parse track metadata
 		matchedTrackElem = albumElem.find('MATCHED_TRACK_NUM')
@@ -362,7 +362,7 @@ def search(clientID='', userID='', artist='', album='', track='', toc=''):
 
 
 
-def _parseRadioMetadata(responseXML, number):
+def _parseRadioMetadata(responseXML, number, clientID,userID):
 	# Create GNTrackMetadata object
 	metadata = gnmetadata()
 	
@@ -397,7 +397,7 @@ def _parseRadioMetadata(responseXML, number):
 					metadata['artist_type'] = _getMultiElemText(albumElem, 'ARTIST_TYPE', 'ORD', 'ID')
 				else:
 					# Try to get OET again by fetching album by GNID
-					metadata['artist_origin'], metadata['artist_era'], metadata['artist_type'] = _getOET(clientID, userID, metadata['album_gnid'])
+					metadata['artist_origin'], metadata['artist_era'], metadata['artist_type'] = _getOET(clientID=clientID, userID=userID, GNID=metadata['album_gnid'])
 		
 				# Parse track metadata
 				trackElem = albumElem.find('TRACK')
@@ -604,7 +604,7 @@ def fetch(clientID='', userID='', GNID=''):
 			metadata['artist_type'] = _getMultiElemText(albumElem, 'ARTIST_TYPE', 'ORD', 'ID')
 		else:
 			# Try to get OET again by fetching album by GNID
-			metadata['artist_origin'], metadata['artist_era'], metadata['artist_type'] = _getOET(clientID, userID, metadata['album_gnid'])
+			metadata['artist_origin'], metadata['artist_era'], metadata['artist_type'] = _getOET(clientID=clientID, userID=userID, GNID=metadata['album_gnid'])
 		
 		# Parse track metadata
 		matchedTrackElem = albumElem.find('MATCHED_TRACK_NUM')
@@ -662,7 +662,7 @@ def _gnurl(clientID):
 	clientIDprefix = clientID.split('-')[0]
 	return 'https://c' + clientIDprefix + '.web.cddbp.net/webapi/xml/1.0/'
 	
-def _getOET(clientID, userID, GNID):
+def _getOET(clientID='', userID='', GNID=''):
 	"""
 	Helper function to retrieve Origin, Era, and Artist Type by direct album 
 	fetch
