@@ -51,6 +51,7 @@ if __name__ == "__main__":
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+from tkinter import *
 
 class ComboBoxWindow(Gtk.Window):
 
@@ -61,6 +62,30 @@ class ComboBoxWindow(Gtk.Window):
 
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
+        #User given artist and track names
+        self.artist = Gtk.Entry()
+        self.artist.set_placeholder_text("Artist")
+        vbox.pack_start(self.artist, True, True, 0)
+
+        hbox = Gtk.Box(spacing=6)
+        vbox.pack_start(hbox, True, True, 0)
+
+        self.track = Gtk.Entry()
+        self.track.set_placeholder_text("Track")
+        vbox.pack_start(self.track, True, True, 0)
+
+        hbox = Gtk.Box(spacing=6)
+        vbox.pack_start(hbox, True, True, 0)
+
+        self.album = Gtk.Entry()
+        self.album.set_placeholder_text("Album")
+        vbox.pack_start(self.album, True, True, 0)
+
+        hbox = Gtk.Box(spacing=6)
+        vbox.pack_start(hbox, True, True, 0)
+
+        #Combo boxes have choices, or user data entry
+        #Indivual genres are stored and selectable
         genre_store = Gtk.ListStore(str)
         genres = {"Latin":25982, "Blues":36060, "Classical":36061, "World":25984, "Electronica":36055,
             "Country & Western":36059, "Comedy, Spoken & Other":36064, "Traditional Pop":25978,
@@ -71,13 +96,13 @@ class ComboBoxWindow(Gtk.Window):
             genre_store.append([genre])
 
         genre_combo = Gtk.ComboBox.new_with_model_and_entry(genre_store)
-        genre_combo.set_border_width(3)
         genre_combo.connect("changed", self.on_genre_combo_changed)
         renderer_text = Gtk.CellRendererText()
         genre_combo.pack_start(renderer_text, True)
         genre_combo.add_attribute(renderer_text, "text", 0)
         vbox.pack_start(genre_combo, False, False, True)
 
+        #Indivual moods are stored and selectable
         mood_store = Gtk.ListStore(str)
         moods = {"Peaceful":65322, "Romantic":65323, "Sentimental":65324, "Tender":42946, "Easygoing":42946,
             "Yearning":65325, "Sophisticated":42954, "Sensual":42947,
@@ -94,6 +119,7 @@ class ComboBoxWindow(Gtk.Window):
         mood_combo.add_attribute(renderer_text, "text", 0)
         vbox.pack_start(mood_combo, False, False, True)
 
+        #Indivual eras are stored and selectable
         era_store = Gtk.ListStore(str)
         eras = {"1930":29490, "1940":29489, "1950":29488, "1960":29487, "1970":29486, "1980":29485, "1990":29484, "2000":29483, "2010":42877}
         for era in eras:
@@ -105,9 +131,10 @@ class ComboBoxWindow(Gtk.Window):
         era_combo.pack_start(renderer_text, True)
         era_combo.add_attribute(renderer_text, "text", 0)
         vbox.pack_start(era_combo, False, False, True)
-
+        
         self.add(vbox)
 
+    #Called methods when combobox options are chosen
     def on_genre_combo_changed(self, combo):
         tree_iter = combo.get_active_iter()
         if tree_iter != None:
@@ -129,6 +156,7 @@ class ComboBoxWindow(Gtk.Window):
             era = model[tree_iter][0]
             print("Selected: era=%s" % era)
 
+#Display and run
 win = ComboBoxWindow()
 win.connect("delete-event", Gtk.main_quit)
 win.show_all()
