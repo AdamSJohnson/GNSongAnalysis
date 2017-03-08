@@ -5,7 +5,7 @@ and allow you to use the pynn network.
 '''
 import pynn as pn
 import pygn
-
+import spotipy
 import sys, pygn, json
 import azapi
 import urllib.request, urllib.error, urllib.parse
@@ -13,6 +13,9 @@ from urllib.error import HTTPError
 
 clientID = '752404744-E74F3C84FB5730224773813C118C14ED' # Enter your Client ID from developer.gracenote.com here
 userID = pygn.register(clientID)
+
+spotify = spotipy.Spotify()
+
 
 class __run__():
 
@@ -127,12 +130,15 @@ class __run__():
 
         for item in intensities:
             #prin the tuple
-            print('{:30}'.format(item) +' : Compound Score ' + '{:04.2f}'.format( 100 * intensities[item][0][0]) + \
-                  ' : Negative Score ' + '{:04.2f}'.format((100 * intensities[item][0][1])) + \
-                  ' : Neutral Score ' + '{:04.2f}'.format(100 * intensities[item][0][2]) + \
-                  ' : Positive Score ' + '{:04.2f}'.format(100 * intensities[item][0][3]) + \
-                  ' : Artist ' + '{:30}'.format( intensities[item][1]) , \
+
+            print('{:30.30}'.format(item) +' : Compound Score ' + '{:05.2f}'.format( 100 * intensities[item][0][0]) + \
+                  ' : Negative Score ' + '{:05.2f}'.format((100 * intensities[item][0][1])) + \
+                  ' : Neutral Score  ' + '{:05.2f}'.format(100 * intensities[item][0][2]) + \
+                  ' : Positive Score ' + '{:05.2f}'.format(100 * intensities[item][0][3]) + \
+                  ' : Artist ' + '{:30.30}'.format( intensities[item][1]) + \
+                  ' : Sample ' + self.link(item=item),
                   )
+            self.link(item=item)
 
         return intensities
 
@@ -151,8 +157,17 @@ class __run__():
                                    _genre= _list[2],\
                                    _mood= _list[3],\
                                    _era= _list[4],)
+    def link(self, item=''):
+        if item == '':
+            return 'no link'
+        try:
+            results = spotify.search(q='item', type='track')
+        except json.decoder.JSONDecodeError:
+            return 'No link found'
+        items = results['tracks']['items']
+        if len(items) > 0:
+            artist = items[0]
+            return artist['preview_url']
 
 
-
-
-#__run__().run(['Katy Perry','','','',''])
+#__run__().run(['Pierce the veil','','','',''])
