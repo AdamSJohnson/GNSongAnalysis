@@ -1,36 +1,23 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-#       AZLyricsAPI.py, mini-API for AZLyrics
-#
-#       Copyright 2013 Francesco Guarneri <Black_Ram>
-#
-#       This program is free software; you can redistribute it and/or modify
-#       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 2 of the License, or
-#       (at your option) any later version.
-#
-#       This program is distributed in the hope that it will be useful,
-#       but WITHOUT ANY WARRANTY; without even the implied warranty of
-#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#       GNU General Public License for more details.
-#
-#       You should have received a copy of the GNU General Public License
-#       along with this program; if not, write to the Free Software
-#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#       MA 02110-1301, USA.
+# Find the HTML page from Lyrics.az that contain lyrics for the given artist song and album.     #
+# This is a modified version of the AZAPI                                                        #
+#           Found here: https://github.com/FrancescoGuarneri/AzLyricsAPI/blob/master/api/azapi.py#
+##################################################################################################
 import pynn
 from bs4 import BeautifulSoup
 import urllib.request, urllib.error, urllib.parse
 from urllib.error import HTTPError
 import pygn
+
 def generating(clientID='', userID='',artist='', title='', album='', save=''):
         if title is bool:
             return 0
 
+        #convert the three fields into usable link tokens
         artist = artist.lower().replace(" ", "-")
         title = title.lower().replace(" ", "-")
         album = album.lower().replace(" ", "-")
+
+        #if the artis is blank we will try to find a new artist usying pygn
         if artist == '':
             print('no artist name')
             temp = pygn.search(clientID=clientID, userID=userID, track=title)
@@ -39,10 +26,14 @@ def generating(clientID='', userID='',artist='', title='', album='', save=''):
 
             #print(artist)
             #return 0
+
+        #lets try to lookup the lyrics sit
         try:
             generate_url = 'http://lyrics.az/' + artist + '/'+album+ '/' + title + '.html'
             #urllib.request.urlopen(generate_url)
             return processing(generate_url, artist, title, save)
+
+        #in this case we can try the url with the '-' album
         except HTTPError:
             if album != '-':
                 return generating(clientID=clientID,\
