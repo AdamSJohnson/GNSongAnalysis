@@ -42,7 +42,10 @@ class analyze():
 
         #keep track of the lines processed
         lines = 0
-
+        
+        
+        sid = SentimentIntensityAnalyzer()
+        
         #go through an analyze each of the sentences
         for sentence in sentences:
 
@@ -64,7 +67,7 @@ class analyze():
                 return 0, 0
 
             lines += 1
-            sid = SentimentIntensityAnalyzer()
+            
             #print(sentence)
             ss = sid.polarity_scores(sentence)
             temp = []
