@@ -130,15 +130,22 @@ class __run__():
 
         for item in intensities:
             #prin the tuple
+            if item is None:
+                continue
+            if intensities[item][1] is None:
+                continue
 
+            link = self.link(item=item, item2=intensities[item][1])
+            if link is None:
+                link = ' '
             print('{:30.30}'.format(item) +' : Compound Score ' + '{:05.2f}'.format( 100 * intensities[item][0][0]) + \
                   ' : Negative Score ' + '{:05.2f}'.format((100 * intensities[item][0][1])) + \
                   ' : Neutral Score  ' + '{:05.2f}'.format(100 * intensities[item][0][2]) + \
                   ' : Positive Score ' + '{:05.2f}'.format(100 * intensities[item][0][3]) + \
                   ' : Artist ' + '{:30.30}'.format( intensities[item][1]) + \
-                  ' : Sample ' + self.link(item=item, item2=intensities[item][1]),
+                  ' : Sample ' + link,
                   )
-            self.link(item=item)
+
 
         return intensities
 
