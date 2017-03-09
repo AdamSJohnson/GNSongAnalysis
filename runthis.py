@@ -158,7 +158,7 @@ class __run__():
                                    _mood= _list[3],\
                                    _era= _list[4],)
     def link(self, item=''):
-        if item == '':
+        if not item:
             return 'no link'
         try:
             results = spotify.search(q='item', type='track')
