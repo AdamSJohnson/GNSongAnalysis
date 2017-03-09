@@ -1,6 +1,9 @@
 import tkinter as tk
 from runthis import __run__ as rt
-
+from tkinter import END
+import spotipy
+import json
+spotify = spotipy.Spotify()
 
 class Demo1:
     def __init__(self, master):
@@ -110,20 +113,46 @@ class Demo1:
 
 
         print(send)
-        rt.run(self,_list=send)
+        self.intensities = rt.run(self,_list=send)
         self.newWindow = tk.Toplevel(self.master)
-        self.app = Demo2(self.newWindow)
+        self.app = Demo2(self.newWindow,intensities=self.intensities )
 
 class Demo2:
-    def __init__(self, master):
+    def __init__(self, master, intensities=''):
         self.master = master
         self.frame = tk.Frame(self.master)
+
         self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
+        self.text_f = tk.Text(self.frame, width=200)
+        for x in intensities:
+            self.text_f.insert(END, self.readit(item=x, intensities=intensities) + '\n')
+        self.text_f.pack()
         self.quitButton.pack()
+
+
+
         self.frame.pack()
     def close_windows(self):
         self.master.destroy()
+    def readit(self, item='', intensities=''):
+        return '{:.20}'.format(item) +' : Compound Score ' + '{:05.2f}'.format( 100 * intensities[item][0][0]) + \
+                  ' : (-) ' + '{:05.2f}'.format((100 * intensities[item][0][1])) + \
+                  ' : (N) ' + '{:05.2f}'.format(100 * intensities[item][0][2]) + \
+                  ' : (+) ' + '{:05.2f}'.format(100 * intensities[item][0][3]) + \
+                  ' : Artist ' + '{:.20}'.format( intensities[item][1]) + \
+                  ' : Sample ' + self.link(item=item, item2=intensities[item][1])
 
+    def link(self, item='', item2=''):
+        if not item:
+            return 'no link'
+        try:
+            results = spotify.search(q='artist:' + item2 + ' track:' + item, type='track')
+        except json.decoder.JSONDecodeError:
+            return 'No link found'
+        items = results['tracks']['items']
+        if len(items) > 0:
+            artist = items[0]
+            return artist['preview_url']
 
 if __name__ == "__main__":
     root = tk.Tk()
