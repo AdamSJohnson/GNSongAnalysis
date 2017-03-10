@@ -7,6 +7,8 @@ import azapi
 import re
 import unicodedata
 import string
+from nltk.tokenize import sent_tokenize
+
 class analyze():
 
     '''
@@ -36,7 +38,13 @@ class analyze():
 
         #put an array of the lines in a variable
         sentences = file_obj.readlines()
+        new_sent = []
+        for x in sentences:
+            temp = nltk.tokenize.sent_tokenize(x)
+            for y in temp:
+                new_sent.append(y)
 
+        sentences = new_sent
         #setup an intensities array
         intensities = []
 
@@ -125,4 +133,65 @@ class analyze():
         return u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
 
 
+    def pynn_test( fname=''):
+        file_obj = open(fname.lower(), 'r')
 
+        # put an array of the lines in a variable
+        sentences = file_obj.readlines()
+        new_sent = []
+        for x in sentences:
+            temp = nltk.tokenize.sent_tokenize(x)
+            for y in temp:
+                new_sent.append(y)
+
+        sentences = new_sent
+
+        print(sentences)
+        # setup an intensities array
+        intensities = []
+
+        # keep track of the lines processed
+        lines = 0
+
+        sid = SentimentIntensityAnalyzer()
+
+        # go through an analyze each of the sentences
+        for sentence in sentences:
+
+            if sentence.startswith('['):
+                # must find the second [
+                loc = sentence.find(']')
+
+                sentence = sentence[loc: len(sentence)]
+
+            if sentence.startswith('***'):
+                continue
+
+            if sentence == '\n':
+                continue
+
+            if sentence == '﻿At the moment nobody has submitted lyrics for this song to our archive.':
+                # this is a problem it means there are no lyrics to the stong
+                return 0, 0
+
+            lines += 1
+
+            # print(sentence)
+            ss = sid.polarity_scores(sentence)
+            temp = []
+            for k in sorted(ss):
+                j = ss[k]
+                temp.append(j)
+            intensities.append(temp)
+
+        total = [0.0, 0.0, 0.0, 0.0]
+        for intensity in intensities:
+            total[0] += intensity[0]
+            total[1] += intensity[1]
+            total[2] += intensity[2]
+            total[3] += intensity[3]
+
+        total[0] = total[0] / lines
+        total[1] = total[1] / lines
+        total[2] = total[2] / lines
+        total[3] = total[3] / lines
