@@ -225,9 +225,9 @@ class Demo2:
 
         # reverse sort direction for next sort operation
         Demo2.SortDir = not descending
-
-
-
+    def link(self, item='', item2=''):
+        return 'no link'
+''' This is broken right now
     def link(self, item='', item2=''):
         if not item:
             return 'no link'
@@ -239,7 +239,7 @@ class Demo2:
         if len(items) > 0:
             artist = items[0]
             return artist['preview_url']
-
+'''
 if __name__ == "__main__":
     root = tk.Tk()
     Demo1(root)
