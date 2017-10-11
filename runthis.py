@@ -11,7 +11,7 @@ import urllib.request, urllib.error, urllib.parse
 import spotipy
 from urllib.error import HTTPError
 
-clientID = '752404744-E74F3C84FB5730224773813C118C14ED' # Enter your Client ID from developer.gracenote.com here
+clientID =  # Enter your Client ID from developer.gracenote.com here
 userID = pygn.register(clientID)
 
 spotify = spotipy.Spotify()
