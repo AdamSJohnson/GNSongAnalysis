@@ -59,7 +59,7 @@ def processing(generate_url, artist, title, save):
     read_lyrics = response.read()
 
     soup = BeautifulSoup(read_lyrics, "html.parser")
-    upbreak = '(adsbygoogle = window.adsbygoogle || []).push({});'
+    upbreak = 'LYRICS.AZ APPLICATION'
     lowbreak = 'Correct these Lyrics'
     try:
         lyrics = soup.get_text()
@@ -67,7 +67,7 @@ def processing(generate_url, artist, title, save):
         return 0
     lyrics = lyrics.split(upbreak)[1]
     lyrics = lyrics.split(lowbreak)[0]
-    #print(lyrics)
+    print(lyrics)
 
 
     return printing(artist, title, save, lyrics)
