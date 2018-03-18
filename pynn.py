@@ -105,10 +105,12 @@ class analyze():
 
     def teardown(self, file_name):
         #remove the file
+        print("I would have removed something")
         os.remove(file_name.lower())
 
 
     def cleanse(self, s):
+        s = s.replace('\'', '')
         r = re.compile(r'[{}]+'.format(re.escape(string.punctuation)))
         ex = r.sub('', s)
 
